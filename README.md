@@ -32,12 +32,14 @@ Example usage:
         global: scope,
         ccdump_path: ccdump_path,
       });
-      ccdump.save("/home/mihai/ccdump-dbg-memleaks-" + Date.now(),
-        function _onCcdumpSave() {
-          ccdump.clear();
-          ccdump = scope = null;
-          executeSoon(finish);
-        });
+      ccdump.load_ccdump(function _load_ccdump() {
+        ccdump.save("/home/mihai/ccdump-dbg-memleaks-" + Date.now(),
+          function _onCcdumpSave() {
+            ccdump.clear();
+            ccdump = scope = null;
+            executeSoon(finish);
+          });
+      });
     }
 
 Instead of calling `finish()` in your test, invoke `call_ccdump()`.
